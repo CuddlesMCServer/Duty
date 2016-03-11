@@ -1,4 +1,3 @@
-
 local Duty = lukkit.addPlugin("Duty", "2.2",
     function(plugin)
         plugin.onEnable(
@@ -10,23 +9,23 @@ local Duty = lukkit.addPlugin("Duty", "2.2",
                 plugin.config.setDefault("config.enable.location", true)
                 plugin.config.setDefault("config.enable.vanishchatblock", true)
                 plugin.config.setDefault("config.enable.vanishchatcommand", false)
-                plugin.config.setDefault("config.lang.onduty", "&e{name} is now on duty")
-                plugin.config.setDefault("config.lang.offduty", "&e{name} is now off duty")
-                plugin.config.setDefault("config.lang.onsilent", "&e{name} is on silent duty")
-                plugin.config.setDefault("config.lang.offsilent", "&e{name} is off silent duty")
-                plugin.config.setDefault("config.lang.fakequit", "&e{name} left the game")
-                plugin.config.setDefault("config.lang.fakejoin", "&e{name} joined the game")
+                plugin.config.setDefault("config.lang.onduty", "&e&o{name} is now on duty.")
+                plugin.config.setDefault("config.lang.offduty", "&e&o{name} is now off duty.")
+                plugin.config.setDefault("config.lang.onsilent", "&7&o{name} is on silent duty.")
+                plugin.config.setDefault("config.lang.offsilent", "&7&o{name} is off silent duty.")
+                plugin.config.setDefault("config.lang.fakequit", "&e{name} left the game.")
+                plugin.config.setDefault("config.lang.fakejoin", "&e{name} joined the game.")
                 plugin.config.setDefault("config.perm.toggle", "duty.toggle")
                 plugin.config.setDefault("config.perm.enabled", "duty.enabled")
                 plugin.config.setDefault("config.rank.onduty", "StaffOnDuty")
                 plugin.config.setDefault("config.rank.offduty", "StaffOffDuty")
                 plugin.config.setDefault("config.gamemode.onduty", "SPECTATOR")
                 plugin.config.setDefault("config.gamemode.offduty", "SURVIVAL")
+                plugin.config.setDefault("config.fallbacklocation.w", "world")
                 plugin.config.setDefault("config.fallbacklocation.x", -240)
                 plugin.config.setDefault("config.fallbacklocation.y", 73)
                 plugin.config.setDefault("config.fallbacklocation.z", -32)
-                plugin.config.setDefault("config.fallbacklocation.w", "world")
-                plugin.config.setDefault("config.vanishchat.command", "sc {message}")
+                plugin.config.setDefault("config.vanishchat.command", "helpop")
                 plugin.config.save()
                 
                 plugin.print("Coded by Lord_Cuddles for mx.cuddl.es in Lukkit")
@@ -76,13 +75,16 @@ local Duty = lukkit.addPlugin("Duty", "2.2",
                                 plugin.config.save()
                                 server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group set "..plugin.config.get("config.rank.offduty"))
                                 server:dispatchCommand(server:getConsoleSender(), "minecraft:gamemode "..plugin.config.get("config.gamemode.offduty").." "..sender:getName())
-                                if x and y and z then
+                                if x and y and z and plugin.config.get("config.enable.location") == true then
                                     server:dispatchCommand(server:getConsoleSender(), "minecraft:tp "..sender:getName().." "..x.." "..y.." "..z)
                                 else
                                     local x = plugin.config.get("config.fallbacklocation.x")
                                     local y = plugin.config.get("config.fallbacklocation.y")
                                     local z = plugin.config.get("config.fallbacklocation.z")
                                     server:dispatchCommand(server:getConsoleSender(), "minecraft:tp "..sender:getName().." "..x.." "..y.." "..z)
+                                    if plugin.config.get("config.enable.location") == true then
+                                        sender:sendMessage("§bYou were teleported to spawn as previous location data was not found.")
+                                    end
                                 end
                             else
                                 sender:sendMessage("§eYou must be in world '"..w.."' to disable duty mode!")
@@ -166,6 +168,8 @@ local Duty = lukkit.addPlugin("Duty", "2.2",
                         if plugin.config.get("s."..player:getUniqueId():toString()..".m") == "v" then
                             if plugin.config.get("config.enable.vanishchatcommand") then
                                 server:dispatchCommand(player, plugin.config.get("config.vanishchat.command").." "..event:getMessage())
+                            else
+                                sender:sendMessage("§7You cannot chat when fake disconnected!")
                             end
                             event:setCancelled(true)
                         end
