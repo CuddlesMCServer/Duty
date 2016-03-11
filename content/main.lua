@@ -3,7 +3,6 @@ local Duty = lukkit.addPlugin("Duty", "2.0",
         plugin.onDisable(
             function()
                 
-                plugin.config.setDefault("config.enable.normal", true)
                 plugin.config.setDefault("config.lang.onduty", "§e{name} is now on duty.")
                 plugin.config.setDefault("config.lang.offduty", "§e{name} is now off duty.")
                 plugin.config.setDefault("config.lang.fakequit", "§e{name} left the game.")
@@ -24,7 +23,7 @@ local Duty = lukkit.addPlugin("Duty", "2.0",
         
         plugin.addCommand("duty", "Enable or disable duty mode", "/duty",
             function(sender, args)
-                if plugin.config.get("config.enable.normal") == true and not sender == server:getConsoleSender() then
+                if plugin.config.get("config.enable.normal") == true then
                     if sender:hasPermission("duty.toggle") == true then
                         if args[1] == "off" or sender:hasPermission(plugin.config.get("config.perm.enabled")) == true then
                             
