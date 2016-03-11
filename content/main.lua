@@ -1,6 +1,4 @@
-
-local Duty = lukkit.addPlugin("Duty", "2.0
-    1",
+local Duty = lukkit.addPlugin("Duty", "2.1",
     function(plugin)
         plugin.onDisable(
             function()
