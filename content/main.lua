@@ -3,10 +3,12 @@ local Duty = lukkit.addPlugin("Duty", "2.0",
         plugin.onDisable(
             function()
                 
-                plugin.config.setDefault("config.lang.onduty", "§e{name} is now on duty.")
-                plugin.config.setDefault("config.lang.offduty", "§e{name} is now off duty.")
-                plugin.config.setDefault("config.lang.fakequit", "§e{name} left the game.")
-                plugin.config.setDefault("config.lang.fakejoin", "§e{name} joined the game.")
+                plugin.config.setDefault("config.lang.onduty", "§e{name} is now on duty")
+                plugin.config.setDefault("config.lang.offduty", "§e{name} is now off duty")
+                plugin.config.setDefault("config.lang.onsilent", "§e{name} is on silent duty")
+                plugin.config.setDefault("config.lang.offsilent", "§e{name} is off silent duty")
+                plugin.config.setDefault("config.lang.fakequit", "§e{name} left the game")
+                plugin.config.setDefault("config.lang.fakejoin", "§e{name} joined the game")
                 plugin.config.setDefault("config.perm.toggle", "duty.toggle")
                 plugin.config.setDefault("config.perm.enabled", "duty.enabled")
                 plugin.config.setDefault("config.rank.onduty", "StaffOnDuty")
@@ -34,9 +36,31 @@ local Duty = lukkit.addPlugin("Duty", "2.0",
                             local z = plugin.config.get("s."..u..".z")
                             
                             local m = plugin.config.get("s."..u..".m")
-                            if m == "s" then
-                            elseif m == "v" then
+                            local world = sender:getPlayer():getLocation():getWorld():getName()
+                            if world == w then
+                                if m == "s" then
+                                    local msg = plugin.config.get("config.lang.offsilent")
+                                    msg = string.gsub(msg, "{name}", sender:getName())
+                                    server:broadcast(msg, plugin.config.get("config.perm.toggle"))
+                                elseif m == "v" then
+                                    local msg = plugin.config.get("config.lang.onsilent")
+                                    msg = string.gsub(msg, "{name}", sender:getName())
+                                    server:broadcast(msg, plugin.config.get("config.perm.toggle"))
+                                    server:dispatchCommand(server:getConsoleSender(), "essentials:vanish "..sender:getName().." off")
+                                    local msg = plugin.config.get("config.lang.fakejoin")
+                                    msg = string.gsub(msg, "{name}", sender:getName())
+                                    broadcast(msg)
+                                else
+                                    local msg = plugin.config.get("config.lang.offduty")
+                                    msg = string.gsub(msg, "{name}", sender:getName())
+                                    broadcast(msg)
+                                end
+                                plugin.config.clear("s."..u)
+                                plugin.config.save()
+                                server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group set "..plugin.config.get("config.rank.offduty"))
+                                server:dispatchCommand(server:getConsoleSender(), "minecraft:gamemode "..plugin.config.get("config.gamemode.offduty").." "..sender:getName())
                             else
+                                sender:sendMessage("§eYou must be in world '"..w.."' to disable duty mode!")
                             end
                             
                         elseif args[1] == "on" or sender:hasPermission(plugin.config.get("config.perm.enabled")) == false then
@@ -63,6 +87,9 @@ local Duty = lukkit.addPlugin("Duty", "2.0",
                             server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group set "..plugin.config.get("config.rank.onduty"))
                             server:dispatchCommand(server:getConsoleSender(), "minecraft:gamemode "..plugin.config.get("config.gamemode.onduty").." "..sender:getName())
                             if args[1] == "-v" then
+                                local msg = plugin.config.get("config.lang.onsilent")
+                                msg = string.gsub(msg, "{name}", sender:getName())
+                                server:broadcast(msg, plugin.config.get("config.perm.toggle"))
                                 server:dispatchCommand(server:getConsoleSender(), "essentials:vanish "..sender:getName().." on")
                                 local msg = plugin.config.get("config.lang.fakequit")
                                 msg = string.gsub(msg, "{name}", sender:getName())
