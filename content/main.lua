@@ -1,14 +1,16 @@
-local Duty = lukkit.addPlugin("Duty", "2.1",
+
+local Duty = lukkit.addPlugin("Duty", "2.0
+    1",
     function(plugin)
         plugin.onDisable(
             function()
                 
-                plugin.config.setDefault("config.lang.onduty", "&e{name} is now on duty.")
-                plugin.config.setDefault("config.lang.offduty", "&e{name} is now off duty.")
-                plugin.config.setDefault("config.lang.onsilent", "&e{name} is on silent duty.")
-                plugin.config.setDefault("config.lang.offsilent", "&e{name} is off silent duty.")
-                plugin.config.setDefault("config.lang.fakequit", "&e{name} left the game.")
-                plugin.config.setDefault("config.lang.fakejoin", "&e{name} joined the game.")
+                plugin.config.setDefault("config.lang.onduty", "&e{name} is now on duty")
+                plugin.config.setDefault("config.lang.offduty", "&e{name} is now off duty")
+                plugin.config.setDefault("config.lang.onsilent", "&e{name} is on silent duty")
+                plugin.config.setDefault("config.lang.offsilent", "&e{name} is off silent duty")
+                plugin.config.setDefault("config.lang.fakequit", "&e{name} left the game")
+                plugin.config.setDefault("config.lang.fakejoin", "&e{name} joined the game")
                 plugin.config.setDefault("config.perm.toggle", "duty.toggle")
                 plugin.config.setDefault("config.perm.enabled", "duty.enabled")
                 plugin.config.setDefault("config.rank.onduty", "StaffOnDuty")
@@ -49,6 +51,11 @@ local Duty = lukkit.addPlugin("Duty", "2.1",
                                     msg = string.gsub(msg, "&", "§")
                                     server:broadcast(msg, plugin.config.get("config.perm.toggle"))
                                 elseif m == "v" then
+                                    local msg = plugin.config.get("config.lang.onsilent")
+                                    msg = string.gsub(msg, "{name}", sender:getName())
+                                    msg = string.gsub(msg, "&", "§")
+                                    server:broadcast(msg, plugin.config.get("config.perm.toggle"))
+                                    server:dispatchCommand(server:getConsoleSender(), "essentials:vanish "..sender:getName().." off")
                                     local msg = plugin.config.get("config.lang.fakejoin")
                                     msg = string.gsub(msg, "{name}", sender:getName())
                                     msg = string.gsub(msg, "&", "§")
@@ -99,6 +106,10 @@ local Duty = lukkit.addPlugin("Duty", "2.1",
                             server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group set "..plugin.config.get("config.rank.onduty"))
                             server:dispatchCommand(server:getConsoleSender(), "minecraft:gamemode "..plugin.config.get("config.gamemode.onduty").." "..sender:getName())
                             if args[1] == "-v" then
+                                local msg = plugin.config.get("config.lang.onsilent")
+                                msg = string.gsub(msg, "{name}", sender:getName())
+                                msg = string.gsub(msg, "&", "§")
+                                server:broadcast(msg, plugin.config.get("config.perm.toggle"))
                                 server:dispatchCommand(server:getConsoleSender(), "essentials:vanish "..sender:getName().." on")
                                 local msg = plugin.config.get("config.lang.fakequit")
                                 msg = string.gsub(msg, "{name}", sender:getName())
