@@ -1,38 +1,64 @@
-# Change settings here
+# Configuration file for the Duty plugin
 
 config:
+  enable:
+    # This must be true for any staff member to enable duty mode
+    toggle: true
+    # If you don't want people to activate silent duty mode set this to false
+    silent: true
+    # If you don't want people to be able to fake quit, set this to false. Requies essentials or a vanish command
+    vanish: true
+    # If you don't want people to have duty mode disabled when they log in, 
+    joindisable: true
+    # If you don't want location data to be saved, set this to false. They will be teleported to spawn instead.
+    location: true
+    # If you want players to be able to chat whilst they've fake quit, set this to false.
+    vanishchatblock: true
+    # If you want players to run a staff chat command when they chat in vanish, set this to true. Otherwise it'll just prevent chat sending.
+    vanishchatcommand: false
+
   lang:
     # Message to broadcast to the entire server when a staff member activates Duty mode
-    onduty: "&e{name} is now on duty."
+    onduty: "&e&o{name} is now on duty."
     # Message to broadcast to the entire server when a staff member deactivates Duty mode
-    offduty: "&e{name} is now off duty."
+    offduty: "&e&o{name} is now off duty."
     # This should be identical as your disconnect message
     fakequit: "&e{name} left the game."
     # This should be identical to your connection message
     fakejoin: "&e{name} joined the game."
     # Message to broadcast to the staff when a staff member activates silent duty mode
-    onsilent: "&e{name} is on silent duty."
+    onsilent: "&7&o{name} is on silent duty."
     # Message to broadcast to the staff when a staff member deactivates silent duty mode
-    offsilent: "&e{name} is off silent duty."
+    offsilent: "&7&o{name} is off silent duty."
+
   perm:
     # Permission required to enable OR disable duty mode. Give to both ranks below, or to the actual player!
     toggle: duty.toggle
     # Permission to give to the rank that staff are put into when they enable duty mode
     enabled: duty.enabled
+
   rank:
     # Rank for staff members who are on duty
     onduty: StaffOnDuty
     # Rank for staff members who are off duty
     offduty: StaffOffDuty
+
   gamemode:
     # Automatically set gamemode to these when toggling
     onduty: SPECTATOR
     offduty: SURVIVAL
+
   fallbacklocation:
-    # Set this to the spawnpoint of the world specified.
+    # Set this to the spawnpoint of the server, or somewhere you want staff to go if their previous location wasnt saved.
     w: world
-    x: 0
-    y: 68
-    z: 0
+    x: -240
+    y: 73
+    z: -32
+
+  vanishchat:
+    # The command executed by the player if they have fake quit, and vanishchatcommand is set to true. Best with a staff chat plugin
+    command: helpop
+
+# This is where player data is stored, and cleared when they disable duty mode.
 s: {}
    
