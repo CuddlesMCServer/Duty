@@ -1,4 +1,5 @@
-local Duty = lukkit.addPlugin("Duty", "2.1",
+
+local Duty = lukkit.addPlugin("Duty", "2.1.2",
     function(plugin)
         plugin.onDisable(
             function()
@@ -133,5 +134,32 @@ local Duty = lukkit.addPlugin("Duty", "2.1",
                 end
             end
         )
+        
+        events.add("playerJoin",
+            function(event)
+                local player = event:getPlayer()
+                if player:hasPermission(plugin.config.get("config.perm.enabled")) == true then
+                    if plugin.config.get("s."..player:getUniqueId():toString()..".m") == "v" then
+                        plugin.config.set("s."..player:getUniqueId():toString()..".m", "s")
+                        plugin.config.save()
+                    end
+                    server:dispatchCommand(player, "duty")
+                    player:sendMessage("§cDuty mode was disabled as you logged out.")
+                end
+            end
+        )
+        
+        events.add("asyncPlayerChat",
+            function(event)
+                local player = event:getPlayer()
+                if player:hasPermission(plugin.config.get("config.perm.enabled")) == true then
+                    if plugin.config.get("s."..player:getUniqueId():toString()..".m") == "v" then
+                        server:dispatchCommand(player, "sc "..event:getMessage())
+                        event:setCancelled(true)
+                    end
+                end
+            end
+        )
+        
     end
 )
