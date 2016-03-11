@@ -36,7 +36,6 @@ local Duty = lukkit.addPlugin("Duty", "2.0",
                             
                             local m = plugin.config.get("s."..u..".m")
                             if m == "s" then
-                                sene
                             elseif m == "v" then
                             else
                             end
