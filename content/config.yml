@@ -28,5 +28,11 @@ config:
     # Automatically set gamemode to these when toggling
     onduty: SPECTATOR
     offduty: SURVIVAL
+  fallbacklocation:
+    # Set this to the spawnpoint of the world specified.
+    w: world
+    x: 0
+    y: 68
+    z: 0
 s: {}
    
