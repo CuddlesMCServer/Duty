@@ -1,4 +1,4 @@
-local Duty = lukkit.addPlugin("Duty", "2.2",
+local Duty = lukkit.addPlugin("Duty", "2.2.1",
     function(plugin)
         plugin.onEnable(
             function()
@@ -19,6 +19,7 @@ local Duty = lukkit.addPlugin("Duty", "2.2",
                 plugin.config.setDefault("config.perm.enabled", "duty.enabled")
                 plugin.config.setDefault("config.rank.onduty", "StaffOnDuty")
                 plugin.config.setDefault("config.rank.offduty", "StaffOffDuty")
+                plugin.config.setDefault("config.rank.mode", "add") -- Can be add or set
                 plugin.config.setDefault("config.gamemode.onduty", "SPECTATOR")
                 plugin.config.setDefault("config.gamemode.offduty", "SURVIVAL")
                 plugin.config.setDefault("config.fallbacklocation.w", "world")
@@ -73,7 +74,8 @@ local Duty = lukkit.addPlugin("Duty", "2.2",
                                 end
                                 plugin.config.clear("s."..u)
                                 plugin.config.save()
-                                server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group set "..plugin.config.get("config.rank.offduty"))
+                                server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group add "..plugin.config.get("config.rank.offduty"))
+                                server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group remove "..plugin.config.get("config.rank.onduty"))
                                 server:dispatchCommand(server:getConsoleSender(), "minecraft:gamemode "..plugin.config.get("config.gamemode.offduty").." "..sender:getName())
                                 if x and y and z and plugin.config.get("config.enable.location") == true then
                                     server:dispatchCommand(server:getConsoleSender(), "minecraft:tp "..sender:getName().." "..x.." "..y.." "..z)
@@ -111,7 +113,8 @@ local Duty = lukkit.addPlugin("Duty", "2.2",
                                 plugin.config.set("s."..u..".m", "n")
                             end
                             plugin.config.save()
-                            server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group set "..plugin.config.get("config.rank.onduty"))
+                            server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group add "..plugin.config.get("config.rank.onduty"))
+                            server:dispatchCommand(server:getConsoleSender(), "pex user "..sender:getName().." group remove "..plugin.config.get("config.rank.offduty"))
                             server:dispatchCommand(server:getConsoleSender(), "minecraft:gamemode "..plugin.config.get("config.gamemode.onduty").." "..sender:getName())
                             if args[1] == "-v" and plugin.config.get("config.enable.vanish") == true then
                                 local msg = plugin.config.get("config.lang.onsilent")
