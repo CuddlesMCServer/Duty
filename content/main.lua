@@ -1,4 +1,4 @@
-local Duty = lukkit.addPlugin("Duty", "2.2.1",
+local Duty = lukkit.addPlugin("Duty", "2.2.2",
     function(plugin)
         plugin.onEnable(
             function()
@@ -20,8 +20,8 @@ local Duty = lukkit.addPlugin("Duty", "2.2.1",
                 plugin.config.setDefault("config.rank.onduty", "StaffOnDuty")
                 plugin.config.setDefault("config.rank.offduty", "StaffOffDuty")
                 plugin.config.setDefault("config.rank.mode", "add") -- Can be add or set
-                plugin.config.setDefault("config.gamemode.onduty", "SPECTATOR")
-                plugin.config.setDefault("config.gamemode.offduty", "SURVIVAL")
+                plugin.config.setDefault("config.gamemode.onduty", "3")
+                plugin.config.setDefault("config.gamemode.offduty", "0")
                 plugin.config.setDefault("config.fallbacklocation.w", "world")
                 plugin.config.setDefault("config.fallbacklocation.x", -240)
                 plugin.config.setDefault("config.fallbacklocation.y", 73)
