@@ -44,9 +44,9 @@ config:
     offduty: StaffOffDuty
 
   gamemode:
-    # Automatically set gamemode to these when toggling
-    onduty: SPECTATOR
-    offduty: SURVIVAL
+    # Automatically set gamemode to these when toggling. At 1.9, these must be a NUMBER between 0 and 3.
+    onduty: 3
+    offduty: 0
 
   fallbacklocation:
     # Set this to the spawnpoint of the server, or somewhere you want staff to go if their previous location wasnt saved.
